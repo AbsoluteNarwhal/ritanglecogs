@@ -49,7 +49,7 @@ class Cogs:
         self.RIGHT_COG = [
             296,
             763,
-            155, # guessed, q22
+            155,
             145,
             168,
             437,
@@ -88,10 +88,10 @@ class Cogs:
 
         if x ** 2 + y ** 2 != z ** 2: return False
 
-        if math.gcd(x, y) == 1 and math.gcd(y, z) == 1 and math.gcd(x, z) == 1: print(f"  Found pythagorean triple - a: {a}, b: {b}, c: {c}")
-        return math.gcd(x, y) == 1 and math.gcd(y, z) == 1 and math.gcd(x, z) == 1
+        if math.gcd(x, y) == 1: print(f"  Found pythagorean triple - a: {a}, b: {b}, c: {c}")
+        return math.gcd(x, y) == 1
     
-    def is60Triangle(self, tol=1e-3):
+    def is60Triangle(self):
         a = self.LEFT_COG[self.left_index]
         b = self.MIDDLE_COG[self.middle_index]
         c = self.RIGHT_COG[self.right_index]
@@ -108,7 +108,9 @@ class Cogs:
         B = angle(b, a, c)
         C = angle(c, a, b)
 
-        return abs(A - 60) < tol or abs(B - 60) < tol or abs(C - 60) < tol
+        if abs(A - 60) < 1e-3 or abs(B - 60) < 1e-3 or abs(C - 60) < 1e-3:
+            print(f"  Found 60 triangle - a: {a}, b: {b}, c: {c} - angles A: {A}, B: {B}, C: {C}")
+        return abs(A - 60) < 1e-3 or abs(B - 60) < 1e-3 or abs(C - 60) < 1e-3
 
     def isIntegerAreaTriangle(self):
         a = self.LEFT_COG[self.left_index]
@@ -168,6 +170,7 @@ class Cogs:
             self.tick()
             s_counter += 1
             if isFibonacci(self.concatSelected()): 
+                print(f"  Found fibonacci number: {self.concatSelected()}")
                 print(f"  s: {s_counter}")
                 break
 
