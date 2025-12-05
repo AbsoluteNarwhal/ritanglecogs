@@ -30,7 +30,15 @@ class Cogs:
         ]
 
         self.RIGHT_COG = [
-            296
+            296,
+            # q21
+            # q22
+            # q23
+            # q24
+            # q25
+            733,
+            # q27
+            # q28
         ]
 
     def tick(self):
