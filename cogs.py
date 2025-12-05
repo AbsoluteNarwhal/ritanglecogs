@@ -88,34 +88,47 @@ class Cogs:
 
         if x ** 2 + y ** 2 != z ** 2: return False
 
-        if math.gcd(x, y) == 1 and math.gcd(y, z) == 1 and math.gcd(x, z) == 1: print(f"Found pythagorean triple - a: {a}, b: {b}, c: {c}")
+        if math.gcd(x, y) == 1 and math.gcd(y, z) == 1 and math.gcd(x, z) == 1: print(f"  Found pythagorean triple - a: {a}, b: {b}, c: {c}")
         return math.gcd(x, y) == 1 and math.gcd(y, z) == 1 and math.gcd(x, z) == 1
     
-    def is60Triangle(self):
+    def is60Triangle(self, tol=1e-3):
         a = self.LEFT_COG[self.left_index]
         b = self.MIDDLE_COG[self.middle_index]
         c = self.RIGHT_COG[self.right_index]
 
-        try:
-            angle_A = math.degrees(math.acos((a**2 - b**2 - c**2)/(-2.0 * c * b)))
-            angle_B = math.degrees(math.acos((b**2 - a**2 - c**2)/(-2.0 * a * c)))
-            angle_C = math.degrees(math.acos((c**2 - b**2 - a**2)/(-2.0 * a * b)))
-        except:
+        if a + b <= c or a + c <= b or b + c <= a:
             return False
 
-        if angle_A == 60 or angle_B == 60 or angle_C == 60: print(f"Found 60 triangle - a: {a}, b: {b}, c: {c} - Angles {angle_A}, {angle_B}, {angle_C}")
-        return angle_A == 60 or angle_B == 60 or angle_C == 60
+        def angle(opposite, side1, side2):
+            cos_val = (side1**2 + side2**2 - opposite**2) / (2 * side1 * side2)
+            cos_val = max(-1, min(1, cos_val))
+            return math.degrees(math.acos(cos_val))
+
+        A = angle(a, b, c)
+        B = angle(b, a, c)
+        C = angle(c, a, b)
+
+        return abs(A - 60) < tol or abs(B - 60) < tol or abs(C - 60) < tol
 
     def isIntegerAreaTriangle(self):
         a = self.LEFT_COG[self.left_index]
         b = self.MIDDLE_COG[self.middle_index]
         c = self.RIGHT_COG[self.right_index]
 
-        semi = (a + b + c) / 2
-        area = math.sqrt(semi * (semi - a) * (semi - b) * (semi - c))
-        
-        if int(area) == area: print(f"Found integer area triangle - a: {a}, b: {b}, c: {c}")
-        return int(area) == area
+        if a + b <= c or a + c <= b or b + c <= a:
+            return False
+
+        s = (a + b + c) / 2
+        expr = s * (s - a) * (s - b) * (s - c)
+        if expr < 0: return False
+
+        area = math.sqrt(max(expr, 0))
+
+        if abs(area - round(area)) < 1e-9:
+            print(f"  Found integer area triangle - a: {a}, b: {b}, c: {c}")
+            return True
+
+        return False
     
     def goToNumber(self, x):
         while self.concatSelected() != x:
@@ -128,27 +141,37 @@ class Cogs:
         r_counter = 0
         s_counter = 0
 
+        print(f"testing fibonacci number: {num} at indexes left: {self.left_index}, middle: {self.middle_index}, right: {self.right_index}")
+
         while True:
             self.tick()
             p_counter += 1
-            if self.isPythagoreanTriple(): break
+            if self.isPythagoreanTriple(): 
+                print(f"  p: {p_counter}")
+                break
 
         while True:
             self.tick()
             q_counter += 1
-            if self.is60Triangle(): break
+            if self.is60Triangle(): 
+                print(f"  q: {q_counter}")
+                break
 
         while True:
             self.tick()
             r_counter += 1
-            if self.isIntegerAreaTriangle(): break
+            if self.isIntegerAreaTriangle(): 
+                print(f"  r: {r_counter}")
+                break
 
         while True:
             self.tick()
-            p_counter += 1
-            if isFibonacci(self.concatSelected()): break
+            s_counter += 1
+            if isFibonacci(self.concatSelected()): 
+                print(f"  s: {s_counter}")
+                break
 
-        print(f"num: {num}, pqrs: {p_counter * q_counter * r_counter * s_counter}")
+        print(f"  num: {num}, pqrs: {p_counter * q_counter * r_counter * s_counter}")
         return p_counter * q_counter * r_counter * s_counter
 
 def main():
@@ -157,6 +180,7 @@ def main():
     for fibonacci in FIBONACCIS:
         cogs.goToNumber(fibonacci)
         lowest = min(lowest, cogs.test())
+    print(lowest)
 
 if __name__ == "__main__":
     main()
