@@ -49,8 +49,8 @@ class Cogs:
         self.RIGHT_COG = [
             # still need 155 and 733
             296,
-            155, # guess q21
-            733, # guess q22
+            0, # guess q21
+            0, # guess q22
             145,
             168,
             437,
@@ -80,10 +80,16 @@ class Cogs:
         return self.LEFT_COG[(self.left_index + 2) % 8]
     
     def isPythagoreanTriple(self):
-        nums = sorted([self.LEFT_COG[self.left_index], self.MIDDLE_COG[self.middle_index], self.RIGHT_COG[self.right_index]])
+        a = self.LEFT_COG[self.left_index]
+        b = self.MIDDLE_COG[self.middle_index]
+        c = self.RIGHT_COG[self.right_index]
+
+        nums = sorted([a, b, c])
         x, y, z = nums[0], nums[1], nums[2]
 
         if x ** 2 + y ** 2 != z ** 2: return False
+
+        if math.gcd(x, y) == 1 and math.gcd(y, z) == 1 and math.gcd(x, z) == 1: print(f"Found pythagorean triple - a: {a}, b: {b}, c: {c}")
         return math.gcd(x, y) == 1 and math.gcd(y, z) == 1 and math.gcd(x, z) == 1
     
     def is60Triangle(self):
@@ -91,16 +97,25 @@ class Cogs:
         b = self.MIDDLE_COG[self.middle_index]
         c = self.RIGHT_COG[self.right_index]
 
-        print(f"a: {a}, b: {b}, c: {c}")
-        angle_A = math.degrees(math.asin((a**2 - b**2 - c**2) / (-2) * b * c))
-        angle_B = math.degrees(math.asin((b**2 - a**2 - c**2) / (-2) * a * c))
-        angle_C = math.degrees(math.asin((c**2 - a**2 - b**2) / (-2) * a * b))
+        try:
+            angle_A = math.degrees(math.acos((a**2 - b**2 - c**2)/(-2.0 * c * b)))
+            angle_B = math.degrees(math.acos((b**2 - a**2 - c**2)/(-2.0 * a * c)))
+            angle_C = math.degrees(math.acos((c**2 - b**2 - a**2)/(-2.0 * a * b)))
+        except:
+            return False
 
+        if angle_A == 60 or angle_B == 60 or angle_C == 60: print(f"Found 60 triangle - a: {a}, b: {b}, c: {c} - Angles {angle_A}, {angle_B}, {angle_C}")
         return angle_A == 60 or angle_B == 60 or angle_C == 60
 
     def isIntegerAreaTriangle(self):
-        semi = (self.LEFT_COG[self.left_index] + self.MIDDLE_COG[self.middle_index] + self.RIGHT_COG[self.right_index]) / 2
-        area = math.sqrt(semi * (semi - self.LEFT_COG[self.left_index]) * (semi - self.MIDDLE_COG[self.middle_index]) * (semi - self.RIGHT_COG[self.right_index]))
+        a = self.LEFT_COG[self.left_index]
+        b = self.MIDDLE_COG[self.middle_index]
+        c = self.RIGHT_COG[self.right_index]
+
+        semi = (a + b + c) / 2
+        area = math.sqrt(semi * (semi - a) * (semi - b) * (semi - c))
+        
+        if int(area) == area: print(f"Found integer area triangle - a: {a}, b: {b}, c: {c}")
         return int(area) == area
     
     def goToNumber(self, x):
