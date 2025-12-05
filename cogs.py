@@ -55,7 +55,7 @@ class Cogs:
             437,
             733,
             0, # q27
-            0  # q28
+            141
         ]
 
     def tick(self):
