@@ -47,11 +47,12 @@ class Cogs:
         ]
 
         self.RIGHT_COG = [
+            # still need 155 and 733
             296,
             0, # q21
             0, # q22
             145,
-            0, # q24
+            168,
             437,
             733,
             0, # q27
@@ -106,6 +107,7 @@ class Cogs:
             self.tick()
 
     def test(self):
+        num = self.concatSelected()
         p_counter = 0
         q_counter = 0
         r_counter = 0
@@ -131,6 +133,7 @@ class Cogs:
             p_counter += 1
             if isFibonacci(self.concatSelected()): break
 
+        print(f"num: {num}, pqrs: {p_counter * q_counter * r_counter * s_counter}")
         return p_counter * q_counter * r_counter * s_counter
 
 def main():
