@@ -40,14 +40,14 @@ class Cogs:
 
         self.RIGHT_COG = [
             296,
-            # q21
-            # q22
+            0, # q21
+            0, # q22
             145,
-            # q24
-            # q25
+            0, # q24
+            437,
             733,
-            # q27
-            # q28
+            0, # q27
+            0  # q28
         ]
 
     def tick(self):
@@ -69,9 +69,32 @@ class Cogs:
 
     def getClicker(self):
         return self.LEFT_COG[(self.left_index + 2) % 8]
+    
+    def isPythagoreanTriple(self):
+        nums = sorted([self.LEFT_COG[self.left_index], self.MIDDLE_COG[self.middle_index], self.RIGHT_COG[self.right_index]])
+        x, y, z = nums[0], nums[1], nums[2]
+
+        if x ** 2 + y ** 2 != z ** 2: return False
+        return math.gcd(x, y) == 1 and math.gcd(y, z) == 1 and math.gcd(x, z) == 1
+    
+    def is60Triangle(self):
+        a = self.LEFT_COG[self.left_index]
+        b = self.MIDDLE_COG[self.middle_index]
+        c = self.RIGHT_COG[self.right_index]
+
+        angle_A = math.degrees(math.asin((a**2 - b**2 - c**2) / (-2) * b * c))
+        angle_B = math.degrees(math.asin((b**2 - a**2 - c**2) / (-2) * a * c))
+        angle_C = math.degrees(math.asin((c**2 - a**2 - b**2) / (-2) * a * b))
+
+        return angle_A == 60 or angle_B == 60 or angle_C == 60
+
+    def isIntegerAreaTriangle(self):
+        semi = (self.LEFT_COG[self.left_index] + self.MIDDLE_COG[self.middle_index] + self.RIGHT_COG[self.right_index]) / 2
+        area = math.sqrt(semi * (semi - self.LEFT_COG[self.left_index]) * (semi - self.MIDDLE_COG[self.middle_index]) * (semi - self.RIGHT_COG[self.right_index]))
+        return int(area) == area
 
 def main():
-    pass
+    cogs = Cogs()
 
 if __name__ == "__main__":
     main()
