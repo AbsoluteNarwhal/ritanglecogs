@@ -6,6 +6,14 @@ def isPerfectSq(x):
 
 def isFibonacci(x):
     return isPerfectSq(5 * x * x + 4) or isPerfectSq(5 * x * x - 4)
+
+FIBONACCIS = [
+    102334155,
+    165580141,
+    267914296,
+    433494437,
+    701408733
+]
     
 class Cogs:
     def __init__(self):
@@ -64,7 +72,7 @@ class Cogs:
         if self.right_index >= len(self.RIGHT_COG):
             self.right_index = 0
 
-    def getSelected(self):
+    def concatSelected(self):
         return int(str(self.LEFT_COG[self.left_index]) + str(self.MIDDLE_COG[self.middle_index]) + str(self.RIGHT_COG[self.right_index]))
 
     def getClicker(self):
@@ -92,9 +100,45 @@ class Cogs:
         semi = (self.LEFT_COG[self.left_index] + self.MIDDLE_COG[self.middle_index] + self.RIGHT_COG[self.right_index]) / 2
         area = math.sqrt(semi * (semi - self.LEFT_COG[self.left_index]) * (semi - self.MIDDLE_COG[self.middle_index]) * (semi - self.RIGHT_COG[self.right_index]))
         return int(area) == area
+    
+    def goToNumber(self, x):
+        while self.concatSelected() != x:
+            self.tick()
+
+    def test(self):
+        p_counter = 0
+        q_counter = 0
+        r_counter = 0
+        s_counter = 0
+
+        while True:
+            self.tick()
+            p_counter += 1
+            if self.isPythagoreanTriple(): break
+
+        while True:
+            self.tick()
+            q_counter += 1
+            if self.is60Triangle(): break
+
+        while True:
+            self.tick()
+            r_counter += 1
+            if self.isIntegerAreaTriangle(): break
+
+        while True:
+            self.tick()
+            p_counter += 1
+            if isFibonacci(self.concatSelected()): break
+
+        return p_counter * q_counter * r_counter * s_counter
 
 def main():
+    lowest = 99999999999
     cogs = Cogs()
+    for fibonacci in FIBONACCIS:
+        cogs.goToNumber(fibonacci)
+        lowest = min(lowest, cogs.test())
 
 if __name__ == "__main__":
     main()
