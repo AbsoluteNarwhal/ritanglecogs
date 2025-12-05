@@ -49,13 +49,13 @@ class Cogs:
         self.RIGHT_COG = [
             # still need 155 and 733
             296,
-            0, # q21
-            0, # q22
+            155, # guess q21
+            733, # guess q22
             145,
             168,
             437,
             733,
-            0, # q27
+            154, 
             141
         ]
 
@@ -91,6 +91,7 @@ class Cogs:
         b = self.MIDDLE_COG[self.middle_index]
         c = self.RIGHT_COG[self.right_index]
 
+        print(f"a: {a}, b: {b}, c: {c}")
         angle_A = math.degrees(math.asin((a**2 - b**2 - c**2) / (-2) * b * c))
         angle_B = math.degrees(math.asin((b**2 - a**2 - c**2) / (-2) * a * c))
         angle_C = math.degrees(math.asin((c**2 - a**2 - b**2) / (-2) * a * b))

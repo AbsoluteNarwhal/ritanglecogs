@@ -16,5 +16,8 @@ x1 = (10 + 0.001) * 24
 height_0 = getHeight(getVolume(x0))
 height_1 = getHeight(getVolume(x1))
 
+print(f"x0 height: {getHeight(getVolume(x0))} x1 height: {getHeight(getVolume(x1))}")
 print(f"x0 volume: {getVolume(x0)} x1 volume: {getVolume(x1)}")
+print(height_1 - height_0)
+print(x1 - x0)
 print((height_1 - height_0) / x1 - x0)
