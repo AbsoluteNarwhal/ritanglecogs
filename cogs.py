@@ -47,10 +47,9 @@ class Cogs:
         ]
 
         self.RIGHT_COG = [
-            # still need 155 and 733
             296,
-            0, # guess q21
-            0, # guess q22
+            763,
+            155, # guessed, q22
             145,
             168,
             437,
