@@ -1,3 +1,12 @@
+import math
+
+def isPerfectSq(x):
+    s = int(math.sqrt(x))
+    return s * s == x
+
+def isFibonacci(x):
+    return isPerfectSq(5 * x * x + 4) or isPerfectSq(5 * x * x - 4)
+    
 class Cogs:
     def __init__(self):
         self.left_index = 0
@@ -33,7 +42,7 @@ class Cogs:
             296,
             # q21
             # q22
-            # q23
+            145,
             # q24
             # q25
             733,
@@ -54,6 +63,9 @@ class Cogs:
 
         if self.right_index >= len(self.RIGHT_COG):
             self.right_index = 0
+
+    def getSelected(self):
+        return int(str(self.LEFT_COG[self.left_index]) + str(self.MIDDLE_COG[self.middle_index]) + str(self.RIGHT_COG[self.right_index]))
 
     def getClicker(self):
         return self.LEFT_COG[(self.left_index + 2) % 8]
